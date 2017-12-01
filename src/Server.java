@@ -1,55 +1,73 @@
-import javax.swing.*;
-import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
-public class Server extends JFrame{
-    private JTextArea jta = new JTextArea("132");
-    private JTextField jtf = new JTextField();
-    private JTextField jtfport = new JTextField("1723");
-    private JButton  jbtn[] =new JButton[10];
-private JButton btnstart = new JButton("Start");
-private JButton btnstop = new JButton("Stop");
-private JButton btnexit = new JButton("Exit");
-private JButton btnsend = new JButton("Send");
-private  JLabel jlb1 = new JLabel("Server IP:");
-private  JLabel jlb2 = new JLabel("10.51.3.69");
-private  JLabel jlb3 = new JLabel("Port:");
-    private  JScrollPane panel = new JScrollPane(jta);
-private JPanel jp1 = new JPanel(new GridLayout(3,3,3,3));
-private JPanel jp2 = new JPanel(new GridLayout(8,1,3,3));
-private JPanel jp3 = new JPanel(new GridLayout(1,1,3,3));
-private  Container cp;
-    public Server(){
-        init();
-    }
-    private  void init(){
-   this.setBounds(100,100,500,600);
-   cp=this.getContentPane();
-   cp.setLayout(new BorderLayout(5,5));
-cp.add(jp1,BorderLayout.CENTER);
-cp.add(jp2,BorderLayout.EAST);
+/**
+ * Created by jackwang on 2017/12/1.
+ */
+public class Server  extends  Thread{
+    private InetAddress ipAdr;
+    private ServerSocket sSocket;
+    private static Socket socket;
+    private PrintStream outStream;
+    private static BufferedReader inStream;
+    private Serverf sf;
 
-cp.add(jp3,BorderLayout.WEST);
-cp.add(jtf,BorderLayout.SOUTH);
-jp2.add(jlb1);
-jp2.add(jlb2);
-jp2.add(jlb3);
-jp2.add(jtfport);
-jp2.add(btnstart);
-jp2.add(btnstop);
-jp2.add(btnexit);
-jp2.add(btnsend);
-jp3.add(jta);
-for(int i = 0 ;i<9 ;i++){
-    jbtn[i] = new JButton();
-    jp1.add(jbtn[i]);
-
-}
-
-
-
-
+    public Server(Serverf serf){
+    sf=serf;
+    try{
+        ipAdr = InetAddress.getLocalHost();
+        sSocket = new ServerSocket(2555);
+    }catch(UnknownHostException e){
+        System.out.println("server 錯誤"+e);
+    }catch (IOException ioe){
+        System.out.println("server 錯誤"+ioe);
     }
 
-
-
+    }
+public void run(){
+    try{
+        socket = sSocket.accept();
+        outStream = new PrintStream(socket.getOutputStream());
+        inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        send2client("connect complete");
+        String str = "";
+        while (!(str=inStream.readLine()).equals("")){
+            sf.addMsg(str);
+        }
+    }catch (Exception e) {
+        System.out.println("server_run錯誤"+e);
+    }
 }
+public String getIP(){
+
+    return ipAdr.getHostAddress();
+}
+public void send2client(String msg){
+    try{
+        if(outStream!=null){
+            outStream.println(msg);
+        }else{
+            System.out.println("請先連結客戶端");
+        }
+    }
+    catch (Exception e){
+        System.out.println("error"+e.toString());
+
+    }
+}
+    public static void CloseSocket() {
+        try {
+            inStream.close();
+            socket.close();
+        } catch (Exception e) {
+            System.out.println("error" + e.toString());
+        }
+    }
+}
+

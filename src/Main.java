@@ -1,7 +1,9 @@
 public class Main {
 
     public static void main(String[] args) {
-	Server server = new Server();
-        server.setVisible(true);
+	Serverf serverf = new Serverf();
+        serverf.setVisible(true);
+        Clientf clientf = new Clientf();
+       clientf.setVisible(true);
     }
 }
