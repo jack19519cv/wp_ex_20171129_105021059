@@ -21,9 +21,9 @@ public class Server  extends  Thread{
     private PrintStream outStreamb;
     private static BufferedReader inStream;
     private static BufferedReader inStreamb;
-    private Serverf sf;
+    private GameFrameS sf;
 
-    public Server(Serverf serf){
+    public Server(GameFrameS serf){
 
     sf=serf;
     try{
@@ -47,12 +47,13 @@ public void run(){
         inStreamb = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         send2client("connect complete");
         String str = "";
-        while (!(str=inStream.readLine()).equals("")){
-            sf.addMsg(str);
-
-        }
-        while (!(str=inStreamb.readLine()).equals("")){
-            sf.addbBtn(str);
+        int tmp= 0;
+//        while (!(str=inStream.readLine()).equals("")){
+//            sf.addMsg(str);
+//
+//        }
+        while (!(tmp==inStreamb.read())){
+            sf.addxy(tmp,tmp);
 
         }
     }catch (Exception e) {
@@ -78,16 +79,20 @@ public void send2client(String msg){
         JOptionPane.showMessageDialog(this.sf, "error"+e.toString());
     }
 }
-    public void send2clienta(String msg){
+    public void send2clienta(int msg,int s){
         try{
             if(outStreamb!=null){
+//                ObservableArray
+                //  outStreamb.write(msg);
                 outStreamb.println(msg);
+                outStreamb.println(s);
+
             }else{
-                JOptionPane.showMessageDialog(this.sf, "請先連結客戶端");
+                // JOptionPane.showMessageDialog(this.cf,"請先連結SERVER");
             }
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(this.sf, "error"+e.toString());
+            JOptionPane.showMessageDialog(this.sf,"error"+e.toString());
         }
     }
     public static void CloseSocket() {

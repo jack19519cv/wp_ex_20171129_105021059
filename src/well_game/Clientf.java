@@ -23,6 +23,7 @@ public class Clientf extends JFrame {
     private  Container cp;
     private Client client;
     private  boolean b;
+    private int tmp=0;
 public String str;
     public Clientf(){
 
@@ -53,7 +54,7 @@ public String str;
         jp3.add(jsp);
         jsp.setPreferredSize(new Dimension(200,400));
         jta.setLineWrap(true);
-        client = new Client(Clientf.this);
+//        client = new Client(Clientf.this);
 
 btnstart.addActionListener(new AbstractAction() {
     @Override
@@ -89,6 +90,7 @@ btnstart.addActionListener(new AbstractAction() {
             client.send2server(jtf.getText());
                 jta.append("Client:"+jtf.getText()+"\n");
                 jtf.setText("");
+
             }
         });
 
@@ -103,24 +105,31 @@ btnstart.addActionListener(new AbstractAction() {
                 jbtn[i].addActionListener(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+
                         if (b==true) {
                             str="O";
                             // TODO addBtn(str);
                             ((JButton) e.getSource()).setText(str);
-                            ((JButton) e.getSource()).setEnabled(false);
+                            //((JButton) e.getSource()).setEnabled(false);
+
 
                             b=false;
-//                            client.send2servera(((JButton) e.getSource()).getText());
-                            win();
+                            tmp++;
+                            client.send2servera(tmp,500);
+                            jta.append("Client:"+tmp+"\n");
+                          //  win();
                         }else {
                             str="X";
 //                            client.send2servera(((JButton) e.getSource()).getText(),((JButton) e.getSource()).getA);
-//                             addBtn( ((JButton) e.getSource()).getText());
+//                             addBtn( ((JButton) e.getSource()).getText(   ));
                             ((JButton) e.getSource()).setText(str);
-                            ((JButton) e.getSource()).setEnabled(false);
+                           // ((JButton) e.getSource()).setEnabled(false);
+                            tmp++;
+                            client.send2servera(tmp,500);
+                            jta.append("Client:"+tmp+"\n");
                             b=true;
 //                            client.send2servera(((JButton) e.getSource()).getText());
-                            win();
+                           // win();
                         }
 
                     }
@@ -140,8 +149,9 @@ public void addMsg(String inStr){
     }
 
     public void addBtn(int inbtn){
-        jbtn[inbtn].getText();
-//str=inbtn;
+        jta.append("Server:"+ inbtn +"\n");
+
+
 
     }
     public String getIP(){
