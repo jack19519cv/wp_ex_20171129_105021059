@@ -22,6 +22,8 @@ public class Client extends Thread{
     private BufferedReader inStreamb;
     private StringWriter writer;
     private GameFrame cf;
+    private static DataInputStream dis;
+    private static DataOutputStream dos;
     public Client(GameFrame cef){
 
         cf=cef;
@@ -42,16 +44,26 @@ public class Client extends Thread{
             inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             inStreamb = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            send2server("client is connected");
+//            send2server("client is connected");
             String str= "";
-            int tmp= 0;
+            int tmp=350-61;
+            int tmp1=400-79;
 //            while (!(str=inStream.readLine()).equals("")){
 //                cf.addMsg(str);
 //
 //            }
-            while (!(tmp==inStreamb.read())){
-                cf.addxy(tmp,tmp);
-
+//            while (!(tmp==inStreamb.read()&&tmp1==inStreamb.read())){
+//                cf.addxy(tmp,tmp1);
+//
+//            }
+            int number ;
+            //= dis.readInt();
+//        while (!(number=inStream.readLine())){
+//            System.out.println("number=" + number);
+//
+//        }
+            while((number = dis.readInt()) != 0) {
+                cf.addx(number);
             }
         }catch(UnknownHostException e){
             JOptionPane.showMessageDialog(this.cf,"client 錯誤"+e);
@@ -66,30 +78,50 @@ public class Client extends Thread{
     }
 
 
-    public void send2server(String msg){
-        try{
-            if(outStream!=null){
-                outStream.println(msg);
-
-            }else{
-                JOptionPane.showMessageDialog(this.cf,"請先連結SERVER");
-            }
-        }
-        catch (Exception e){
-            JOptionPane.showMessageDialog(this.cf,"error"+e.toString());
+//    public void send2server(String msg){
+//        try{
+//            if(outStream!=null){
+//                outStream.println(msg);
+//
+//            }else{
+//                JOptionPane.showMessageDialog(this.cf,"請先連結SERVER");
+//            }
+//        }
+//        catch (Exception e){
+//            JOptionPane.showMessageDialog(this.cf,"error"+e.toString());
+//        }
+//    }
+public void send2serverx(int x){
+    try{
+        if(outStreamb!=null){
+//                ObservableArray
+            //  outStreamb.write(msg);
+//                outStreamb.println(x);//將資料編寫進串流內
+//                outStreamb.flush();//清空緩衝區並送出資料
+            dos.writeInt(x);
+            dos.flush();
+        }else{
+            // JOptionPane.showMessageDialog(this.cf,"請先連結SERVER");
         }
     }
-    public void send2servera(int msg,int s){
+    catch (Exception e){
+        JOptionPane.showMessageDialog(this.cf,"error"+e.toString());
+    }
+}
+    public void send2servery(int y){
         try{
             if(outStreamb!=null){
 //                ObservableArray
-                outStreamb.println(msg);
-                outStreamb.println(s);
-
+                //  outStreamb.write(msg);
+                dos.writeInt(y);
+//                outStreamb.println(y);//將資料編寫進串流內
+//                outStreamb.flush();//清空緩衝區並送出資料
+                dos.flush();
 
             }else{
-               // JOptionPane.showMessageDialog(this.cf,"請先連結SERVER");
+                // JOptionPane.showMessageDialog(this.cf,"請先連結SERVER");
             }
+
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(this.cf,"error"+e.toString());

@@ -87,7 +87,7 @@ btnstart.addActionListener(new AbstractAction() {
         btnsend.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            client.send2server(jtf.getText());
+//            client.send2server(jtf.getText());
                 jta.append("Client:"+jtf.getText()+"\n");
                 jtf.setText("");
 
@@ -115,7 +115,7 @@ btnstart.addActionListener(new AbstractAction() {
 
                             b=false;
                             tmp++;
-                            client.send2servera(tmp,500);
+//                            client.send2servera(tmp,500);
                             jta.append("Client:"+tmp+"\n");
                           //  win();
                         }else {
@@ -125,7 +125,7 @@ btnstart.addActionListener(new AbstractAction() {
                             ((JButton) e.getSource()).setText(str);
                            // ((JButton) e.getSource()).setEnabled(false);
                             tmp++;
-                            client.send2servera(tmp,500);
+//                            client.send2servera(tmp,500);
                             jta.append("Client:"+tmp+"\n");
                             b=true;
 //                            client.send2servera(((JButton) e.getSource()).getText());

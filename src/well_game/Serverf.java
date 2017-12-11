@@ -114,7 +114,7 @@ cp.add(jtf,BorderLayout.SOUTH);
         btnsend.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            serv.send2client(jtf.getText());
+//            serv.send2client(jtf.getText());
                 jta.append("Server:"+jtf.getText()+"\n");
                 jtf.setText("");
             }

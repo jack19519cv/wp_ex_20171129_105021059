@@ -91,6 +91,7 @@ public class GameFrame extends JFrame{
                 character.setIcon(charImg[t1Tmp%4+6]);
                 t1Tmp++;
                 character.setLocation(character.getX()-8,character.getY());
+
             }
         });
         walkR=new Timer(200, new ActionListener() {
@@ -100,6 +101,7 @@ public class GameFrame extends JFrame{
                 System.out.println(t1Tmp%4+10);
                 t1Tmp++;
                 character.setLocation(character.getX()+8,character.getY());
+
             }
         });
 //        walkL.start();
@@ -135,6 +137,8 @@ public class GameFrame extends JFrame{
                     if(key==65){
                         alert.stop();
                         walkL.start();
+                        client.send2serverx(character.getX()-8);
+                        client.send2servery(character.getY()-8);
                     }else if(key == e.VK_ENTER){
                         System.out.println("keyPressed");
                         character.setIcon(charImg[14]);
@@ -146,6 +150,8 @@ public class GameFrame extends JFrame{
                         alert.stop();
                         walkR.start();
                         //right
+                        client.send2serverx(character.getX()-8);
+                        client.send2servery(character.getY()-8);
                     }else if(key==83){
                         alert.stop();
                         if(charfaced==true) {
@@ -169,8 +175,9 @@ public class GameFrame extends JFrame{
                 int key = e.getKeyCode();
                 if(key==65) {
                     charfaced=true;
-//                    alert.start();
-//                    walkL.stop();
+                    alert.start();
+                    walkL.stop();
+
                     keyflag=false;
                     System.out.println(e.getKeyCode());
                 }else if(key == e.VK_ENTER) {
@@ -179,9 +186,11 @@ public class GameFrame extends JFrame{
 
                 }else if(key==68){
                     charfaced=false;
-//                    alert.start();
-//                    walkR.stop();
+                    alert.start();
+                    walkR.stop();
+
                     keyflag=false;
+
                     System.out.println(e.getKeyCode());
                 }else if(key==83){
                     keyflag=false;
@@ -228,7 +237,15 @@ public class GameFrame extends JFrame{
     }
     public void addxy(int inx,int iny){
         character.setLocation(inx,iny);
+
+
+
     }
 
-
+    public void addx(int x){
+        x=character.getX();
+    }
+    public void addy(int y){
+        y=character.getY();
+    }
 }

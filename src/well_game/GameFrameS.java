@@ -91,6 +91,7 @@ public class GameFrameS extends JFrame{
                 character.setIcon(charImg[t1Tmp%4+6]);
                 t1Tmp++;
                 character.setLocation(character.getX()-8,character.getY());
+
             }
         });
         walkR=new Timer(200, new ActionListener() {
@@ -100,6 +101,7 @@ public class GameFrameS extends JFrame{
                 System.out.println(t1Tmp%4+10);
                 t1Tmp++;
                 character.setLocation(character.getX()+8,character.getY());
+
             }
         });
 //        walkL.start();
@@ -135,7 +137,8 @@ public class GameFrameS extends JFrame{
                     if(key==65){
                         alert.stop();
                         walkL.start();
-                       serv.send2clienta(character.getX(),character.getY());
+                        serv.send2clientax(character.getX()-8);
+                        serv.send2clientay(character.getY()-8);
                     }else if(key == e.VK_ENTER){
                         System.out.println("keyPressed");
                         character.setIcon(charImg[14]);
@@ -147,7 +150,8 @@ public class GameFrameS extends JFrame{
                         alert.stop();
                         walkR.start();
                         //right
-                        serv.send2clienta(character.getX(),character.getY());
+                        serv.send2clientax(character.getX()-8);
+                        serv.send2clientay(character.getY()-8);
                     }else if(key==83){
                         alert.stop();
                         if(charfaced==true) {
@@ -173,7 +177,7 @@ public class GameFrameS extends JFrame{
                     charfaced=true;
                     alert.start();
                     walkL.stop();
-                    serv.send2clienta(character.getX(),character.getY());
+
                     keyflag=false;
                     System.out.println(e.getKeyCode());
                 }else if(key == e.VK_ENTER) {
@@ -184,7 +188,7 @@ public class GameFrameS extends JFrame{
                     charfaced=false;
                     alert.start();
                     walkR.stop();
-                    serv.send2clienta(character.getX(),character.getY());
+
                     keyflag=false;
 
                     System.out.println(e.getKeyCode());
@@ -236,6 +240,12 @@ public class GameFrameS extends JFrame{
 
 
 
+    }
+    public void addx(){
+        character.getX();
+    }
+    public void addy(){
+        character.getY();
     }
 
 }
